@@ -22,6 +22,10 @@ module Aliyun
       @aliyun_host = options[:host] || @aliyun_upload_host
     end
 
+    def fetch_file_host
+      @aliyun_host
+    end
+
 =begin rdoc
 上传文件
 
@@ -75,6 +79,29 @@ module Aliyun
       url = path_to_url(path)
       response = RestClient.delete(URI.encode(url), headers)
       response.code == 204 ? url : nil
+    end
+
+=begin rdoc
+下载 Remote 的文件
+
+== 参数:
+- path - remote 存储路径
+
+== 返回值:
+请求的图片的数据流
+=end
+    def get(path)
+      path = format_path(path)
+      bucket_path = get_bucket_path(path)
+      date = gmtdate
+      headers = {
+        "Host" => @aliyun_upload_host,
+        "Date" => date,
+        "Authorization" => sign("GET", bucket_path, "", "" ,date)
+      }
+      url = path_to_url(path)
+      response = RestClient.get(URI.encode(url), headers)
+      response.body
     end
 
 =begin rdoc
