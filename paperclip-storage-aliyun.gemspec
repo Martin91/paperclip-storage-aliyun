@@ -3,7 +3,7 @@ Gem::Specification.new do |s|
   s.platform     = Gem::Platform::RUBY
   s.require_path = 'lib'
   s.summary      = 'Extend a Aliyun OSS storage for paperclip'
-  s.description  = 'Extend a [Aliyun OSS](http://www.aliyun.com/product/oss/) storage for [paperclip](https://github.com/thoughtbot/paperclip)'
+  s.description  = 'Extend a Aliyun OSS storage for paperclip'
   s.version      = '0.0.1'
   s.files        = `git ls-files`.split("\n")
   s.authors      = ['Martin Hong']
