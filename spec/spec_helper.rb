@@ -17,10 +17,8 @@ Paperclip::Attachment.default_options[:aliyun] = {
   access_id: '3VL9XMho8iCuslj8',
   access_key: 'VAUI2q7Tc6yTf1jr3kBsEUzZ84gEa2',
   bucket: 'martin-test',
-  data_centre: 'hangzhou', #TODO: use full link here
-  internal: false,
-  path: ':class/:attachment/:id/:style/:filename',
-  url: ":class/:attachment/:id/:style/:filename"
+  data_centre: 'hangzhou',
+  internal: false
   # host: nil
 }
 Paperclip::Attachment.default_options[:url] = "http://#{file_host}/public/system/:class/:attachment/:id_partition/:style/:filename"
