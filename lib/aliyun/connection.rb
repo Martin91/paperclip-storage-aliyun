@@ -154,7 +154,7 @@ true/false
     ##
     # 根据配置返回完整的上传文件的访问地址
     def path_to_url(path)
-      "http://#{@aliyun_upload_host}/#{path}"
+      "http://#{fetch_file_host}/#{path}"
     end
 
     private
