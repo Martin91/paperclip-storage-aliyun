@@ -2,20 +2,24 @@ require 'spec_helper'
 
 require "net/http"
 
-describe "Aliyun" do
+describe Aliyun::Connection do
   before :all do
     @connection = ::Aliyun::Connection.new
     @path = 'a/a.jpg'
   end
 
-  it "should put" do
-    url = @connection.put @path, load_attachment("girl.jpg")
-    Net::HTTP.get_response(URI.parse(url)).code.should == "200"
+  describe '#put' do
+    it "upload the attachment" do
+      url = @connection.put @path, load_attachment("girl.jpg")
+      Net::HTTP.get_response(URI.parse(url)).code.should == "200"
+    end
   end
 
-  it "should delete" do
-    url = @connection.delete @path
-    Net::HTTP.get_response(URI.parse(url)).code.should == "404"
+  describe '#delete' do
+    it "delete the attachment" do
+      url = @connection.delete @path
+      Net::HTTP.get_response(URI.parse(url)).code.should == "404"
+    end
   end
 
   describe "#exists?" do
