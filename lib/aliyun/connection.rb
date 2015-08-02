@@ -26,6 +26,27 @@ module Aliyun
       @aliyun_host
     end
 
+    # Return the meta informations for the a file specified by the url
+    # https://docs.aliyun.com/#/pub/oss/api-reference/object&HeadObject
+    #
+    # @param url [String] the url of file storaged in Aliyun OSS
+    # @return [Hash] the meta data of the file
+    # @note the example headers will be like:
+    #    {:date=>"Sun, 02 Aug 2015 02:42:45 GMT",
+    #     :content_type=>"image/jpg",
+    #     :content_length=>"125198",
+    #     :connection=>"close",
+    #     :accept_ranges=>"bytes",
+    #     :etag=>"\"336262A42E5B99AFF5B8BC66611FC156\"",
+    #     :last_modified=>"Sun, 01 Dec 2013 16:39:57 GMT",
+    #     :server=>"AliyunOSS",
+    #     :x_oss_object_type=>"Normal",
+    #     :x_oss_request_id=>"55BD83A5D4C05BDFF4A329E0"}
+    #
+    def head(url)
+      RestClient.head(url).headers
+    end
+
 =begin rdoc
 上传文件
 

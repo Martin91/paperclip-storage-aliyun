@@ -14,6 +14,15 @@ describe Aliyun::Connection do
       response_code = Net::HTTP.get_response(URI.parse(url)).code
       expect(response_code).to eq("200")
     end
+
+    it "support setting content type" do
+      content_type = "application/pdf"
+      url = @connection.put 'pdfs/masu.pdf', load_attachment("masu.pdf"), content_type: content_type
+      file_meta = @connection.head(url)
+      expect(file_meta[:content_type]).to eq(content_type)
+
+      @connection.delete url
+    end
   end
 
   describe '#delete' do
