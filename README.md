@@ -21,7 +21,7 @@ Paperclip::Attachment.default_options[:aliyun] = {
   access_id: '3VL9XMho8iCushj8',
   access_key: 'VAUI2q7Tc6yTh1jr3kBsEUzZ84gEa2',
   bucket: 'xx-test',
-  data_centre: 'hangzhou',
+  data_center: 'hangzhou',
   internal: false
 }
 ```
