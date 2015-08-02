@@ -5,12 +5,14 @@ module Paperclip
       end
 
       def exists?(style = default_style)
+        return false unless path(style)
+
         oss_connection.exists? path(style)
       end
 
       def flush_writes #:nodoc:
         @queued_for_write.each do |style_name, file|
-          oss_connection.put path(style_name), (File.new file.path)
+          oss_connection.put path(style_name), (File.new file.path), content_type: file.content_type
         end
 
         after_flush_writes
@@ -37,7 +39,7 @@ module Paperclip
       def oss_connection
         return @oss_connection if @oss_connection
 
-        @oss_connection ||= ::Aliyun::Connection.new
+        @oss_connection ||= ::Aliyun::Connection.new Paperclip::Attachment.default_options[:aliyun]
       end
     end
   end
