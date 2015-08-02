@@ -10,7 +10,6 @@ Gem::Specification.new do |s|
   s.email        = 'hongzeqin@gmail.com'
   s.homepage     = 'https://github.com/Martin91/paperclip-storage-aliyun'
   s.license      = 'MIT'
-  # s.test_files   = ''
 
   s.add_runtime_dependency 'paperclip', '>= 3.5.2'
   s.add_runtime_dependency 'rest-client', '>= 1.6.7'

@@ -5,19 +5,30 @@ require 'digest/md5'
 require "rest-client"
 require "base64"
 require 'uri'
+require 'aliyun/data_center'
 
 module Aliyun
   class Connection
+    include DataCenter
+    # Initialize the OSS connection
+    #
+    # @param [Hash] An options to specify connection details
+    # @option access_id [String] used to set "Authorization" request header
+    # @option access_key [String] the access key
+    # @option bucket [String] bucket used to access
+    # @option data_center [String] available data center name, e.g. 'hangzhou'
+    # @option internal [true, false] if the service should be accessed through internal network
+    # @option host [String] force the host to a given value, only use it when this gem can not work expectly
+    # @note both access_id and acces_key are related to authorization algorithm:
+    #   https://docs.aliyun.com/#/pub/oss/api-reference/access-control&signature-header
     def initialize(options = {})
       @aliyun_access_id = options[:access_id]
       @aliyun_access_key = options[:access_key]
       @aliyun_bucket = options[:bucket]
 
-      data_centre = options[:data_centre].to_s.downcase == 'qingdao' ? 'qingdao' : 'hangzhou'
-      internal = options[:internal] == true ? true : false
-      @aliyun_data_centre = "oss-cn-#{data_centre}#{internal ? '-internal' : nil}.aliyuncs.com"
+      @endpoint = get_endpoint(options)
 
-      @aliyun_upload_host = "#{@aliyun_bucket}.#{@aliyun_data_centre}"
+      @aliyun_upload_host = "#{@aliyun_bucket}.#{@endpoint}"
 
       @aliyun_host = options[:host] || @aliyun_upload_host
     end

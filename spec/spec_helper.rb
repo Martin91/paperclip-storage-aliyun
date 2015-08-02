@@ -13,7 +13,7 @@ OSS_CONNECTION_OPTIONS = {
   access_id: '3VL9XMho8iCuslj8',
   access_key: 'VAUI2q7Tc6yTf1jr3kBsEUzZ84gEa2',
   bucket: 'martin-test',
-  data_centre: 'hangzhou',
+  data_center: 'hangzhou',
   internal: false
   # host: nil
 }
