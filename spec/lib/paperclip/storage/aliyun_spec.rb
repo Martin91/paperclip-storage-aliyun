@@ -4,12 +4,12 @@ require 'net/http'
 require 'support/post'
 
 describe Paperclip::Storage::Aliyun do
-  before do
+  before :all do
     @file = load_attachment('girl.jpg')
     @post = Post.create attachment: @file
   end
 
-  after do
+  after :all do
     if @post && @post.respond_to?(:id)
       @post.destroy!
     end
@@ -27,6 +27,15 @@ describe Paperclip::Storage::Aliyun do
       attachment = open @post.attachment.url
       expect(attachment.size).to eq(@file.size)
     end
+
+    it "set content type according to the original file" do
+      attachment = load_attachment('masu.pdf')
+      post = Post.create attachment: attachment
+      headers = RestClient.head(post.attachment.url).headers
+      expect(headers[:content_type]).to eq('application/pdf')
+
+      post.destroy
+    end
   end
 
   describe "#exists?" do
@@ -40,16 +49,6 @@ describe Paperclip::Storage::Aliyun do
     end
   end
 
-  describe "#flush_deletes" do
-    it "deletes the attachment from Aliyun" do
-      attachment_url = @post.attachment.url
-      @post.destroy
-
-      response_code = Net::HTTP.get_response(URI.parse(attachment_url)).code
-      expect(response_code).to eq("404")
-    end
-  end
-
   describe "#copy_to_local_file" do
     it "copies file from Aliyun to a local file" do
       destination = File.join(Bundler.root, "tmp/photo.jpg")
@@ -57,6 +56,16 @@ describe Paperclip::Storage::Aliyun do
       expect(File.exists?(destination)).to be_truthy
       
       File.delete destination
+    end
+  end
+
+  describe "#flush_deletes" do
+    it "deletes the attachment from Aliyun" do
+      attachment_url = @post.attachment.url
+      @post.destroy
+
+      response_code = Net::HTTP.get_response(URI.parse(attachment_url)).code
+      expect(response_code).to eq("404")
     end
   end
 end
