@@ -9,10 +9,7 @@ def file_host
   oss_connection.fetch_file_host
 end
 
-# paperclip初始化设置
-Paperclip::Attachment.default_options[:storage] = :aliyun
-Paperclip::Attachment.default_options[:path] = 'public/system/:class/:attachment/:id_partition/:style/:filename'
-Paperclip::Attachment.default_options[:aliyun] = {
+OSS_CONNECTION_OPTIONS = {
   access_id: '3VL9XMho8iCuslj8',
   access_key: 'VAUI2q7Tc6yTf1jr3kBsEUzZ84gEa2',
   bucket: 'martin-test',
@@ -20,6 +17,11 @@ Paperclip::Attachment.default_options[:aliyun] = {
   internal: false
   # host: nil
 }
+
+# paperclip初始化设置
+Paperclip::Attachment.default_options[:storage] = :aliyun
+Paperclip::Attachment.default_options[:path] = 'public/system/:class/:attachment/:id_partition/:style/:filename'
+Paperclip::Attachment.default_options[:aliyun] = OSS_CONNECTION_OPTIONS
 Paperclip::Attachment.default_options[:url] = "http://#{file_host}/public/system/:class/:attachment/:id_partition/:style/:filename"
 
 def load_attachment(file_name)

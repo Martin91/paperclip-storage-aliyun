@@ -4,7 +4,7 @@ require "net/http"
 
 describe Aliyun::Connection do
   before :all do
-    @connection = ::Aliyun::Connection.new
+    @connection = ::Aliyun::Connection.new OSS_CONNECTION_OPTIONS
     @path = 'a/a.jpg'
   end
 

@@ -39,7 +39,7 @@ module Paperclip
       def oss_connection
         return @oss_connection if @oss_connection
 
-        @oss_connection ||= ::Aliyun::Connection.new
+        @oss_connection ||= ::Aliyun::Connection.new Paperclip::Attachment.default_options[:aliyun]
       end
     end
   end

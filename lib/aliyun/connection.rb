@@ -8,7 +8,7 @@ require 'uri'
 
 module Aliyun
   class Connection
-    def initialize(options = Paperclip::Attachment.default_options[:aliyun])
+    def initialize(options = {})
       @aliyun_access_id = options[:access_id]
       @aliyun_access_key = options[:access_key]
       @aliyun_bucket = options[:bucket]
