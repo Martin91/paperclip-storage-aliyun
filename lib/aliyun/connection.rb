@@ -26,10 +26,10 @@ module Aliyun
       @aliyun_host
     end
 
-    # Return the meta informations for the a file specified by the url
+    # Return the meta informations for the a file specified by the path
     # https://docs.aliyun.com/#/pub/oss/api-reference/object&HeadObject
     #
-    # @param url [String] the url of file storaged in Aliyun OSS
+    # @param path [String] the path of file storaged in Aliyun OSS
     # @return [Hash] the meta data of the file
     # @note the example headers will be like:
     #    {:date=>"Sun, 02 Aug 2015 02:42:45 GMT",
@@ -43,7 +43,8 @@ module Aliyun
     #     :x_oss_object_type=>"Normal",
     #     :x_oss_request_id=>"55BD83A5D4C05BDFF4A329E0"}
     #
-    def head(url)
+    def head(path)
+      url = path_to_url(path)
       RestClient.head(url).headers
     rescue RestClient::ResourceNotFound
       {}
@@ -137,7 +138,7 @@ module Aliyun
 true/false
 =end
     def exists?(path)
-      head(path_to_url(path)).empty? ? false : true
+      head(path).empty? ? false : true
     end
 
     ##
@@ -160,6 +161,7 @@ true/false
     ##
     # 根据配置返回完整的上传文件的访问地址
     def path_to_url(path)
+      return path if path =~ /^https?:\/{2}/  # 已经是全路径
       "http://#{fetch_file_host}/#{path}"
     end
 

@@ -17,11 +17,12 @@ describe Aliyun::Connection do
 
     it "support setting content type" do
       content_type = "application/pdf"
-      url = @connection.put 'pdfs/masu.pdf', load_attachment("masu.pdf"), content_type: content_type
-      file_meta = @connection.head(url)
+      path = 'pdfs/masu.pdf'
+      @connection.put path, load_attachment("masu.pdf"), content_type: content_type
+      file_meta = @connection.head(path)
       expect(file_meta[:content_type]).to eq(content_type)
 
-      @connection.delete url
+      @connection.delete path
     end
   end
 
