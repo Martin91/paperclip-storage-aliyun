@@ -8,6 +8,14 @@ describe Aliyun::Connection do
     @path = 'a/a.jpg'
   end
 
+  describe '#initialize' do
+    it "raise error when use invalid data center" do
+      expect do
+        ::Aliyun::Connection.new data_center: 'guangzhou'
+      end.to raise_error(Aliyun::InvalildDataCenter)
+    end
+  end
+
   describe '#put' do
     it "upload the attachment" do
       url = @connection.put @path, load_attachment("girl.jpg")
