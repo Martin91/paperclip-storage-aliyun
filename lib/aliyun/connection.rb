@@ -45,6 +45,8 @@ module Aliyun
     #
     def head(url)
       RestClient.head(url).headers
+    rescue RestClient::ResourceNotFound
+      {}
     end
 
 =begin rdoc
