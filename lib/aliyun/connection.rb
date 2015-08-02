@@ -137,24 +137,7 @@ module Aliyun
 true/false
 =end
     def exists?(path)
-      path = format_path(path)
-      bucket_path = get_bucket_path(path)
-      date = gmtdate
-      headers = {
-        "Host" => @aliyun_upload_host,
-        "Date" => date,
-        "Authorization" => sign("HEAD", bucket_path, "", "", date)
-      }
-      url = path_to_url(path)
-
-      # rest_client will throw exception if requested resource not found
-      begin
-        response = RestClient.head(URI.encode(url), headers)
-      rescue RestClient::ResourceNotFound
-        return false
-      end
-
-      true
+      head(path_to_url(path)).empty? ? false : true
     end
 
     ##
