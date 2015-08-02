@@ -47,6 +47,11 @@ describe Paperclip::Storage::Aliyun do
       post = Post.new attachment: @file
       expect(post.attachment).not_to exist
     end
+
+    it "not raise exception when attachment not saved" do
+      post = Post.create
+      expect{post.attachment.exists?}.not_to raise_error
+    end
   end
 
   describe "#copy_to_local_file" do

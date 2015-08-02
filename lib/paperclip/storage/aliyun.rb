@@ -5,6 +5,8 @@ module Paperclip
       end
 
       def exists?(style = default_style)
+        return false unless path(style)
+
         oss_connection.exists? path(style)
       end
 
