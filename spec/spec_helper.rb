@@ -1,6 +1,5 @@
 require 'pry'
 require 'pry-nav'
-require 'rspec/autorun'
 require 'paperclip-storage-aliyun'
 
 Dir[File.join(Bundler.root, "spec/support/**/*.rb")].each &method(:require)
