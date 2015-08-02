@@ -39,6 +39,3 @@ class Image < ActiveRecord::Base
   }
 end
 ```
-
-### Thanks
-这个gem是在参考[Jason Lee](https://github.com/huacnlee)先生写的gem [carrierwave-aliyun](https://github.com/huacnlee/carrierwave-aliyun)的基础上写出来的，其中主要直接用了阿里云接口的代码以及对应的测试代码，在此基础上自行实现Paperclip必要的`get`方法以及`exists?`方法。在此特别感谢**Jason Lee**先生的开源代码。
