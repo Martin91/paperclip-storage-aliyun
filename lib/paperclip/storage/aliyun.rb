@@ -2,12 +2,13 @@ module Paperclip
   module Storage
     module Aliyun
       def self.extended(base)
+        Paperclip.interpolates(:aliyun_path_url) do |attachment, style|
+          "http://#{attachment.oss_connection.fetch_file_host}/#{attachment.path(style).gsub(%r{\A/}, "")}"
+        end unless Paperclip::Interpolations.respond_to? :aliyun_path_url
       end
 
       def exists?(style = default_style)
-        return false unless path(style)
-
-        oss_connection.exists? path(style)
+        path(style) ? oss_connection.exists?(path(style)) : false
       end
 
       def flush_writes #:nodoc:
@@ -37,8 +38,6 @@ module Paperclip
       end
 
       def oss_connection
-        return @oss_connection if @oss_connection
-
         @oss_connection ||= ::Aliyun::Connection.new Paperclip::Attachment.default_options[:aliyun]
       end
     end
