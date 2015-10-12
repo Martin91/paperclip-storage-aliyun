@@ -2,13 +2,10 @@ require 'pry'
 require 'pry-nav'
 require 'paperclip-storage-aliyun'
 
-Dir[File.join(Bundler.root, "spec/support/**/*.rb")].each &method(:require)
+Paperclip.logger.level = ::Logger::UNKNOWN
+Dir[Bundler.root.join('spec/support/**/*.rb')].each(&method(:require))
 
-include Paperclip::Storage::Aliyun
-def file_host
-  oss_connection.fetch_file_host
-end
-
+# Aliyun defaults
 OSS_CONNECTION_OPTIONS = {
   access_id: '3VL9XMho8iCuslj8',
   access_key: 'VAUI2q7Tc6yTf1jr3kBsEUzZ84gEa2',
@@ -18,12 +15,13 @@ OSS_CONNECTION_OPTIONS = {
   # host: nil
 }
 
-# paperclip初始化设置
+# Paperclip defaults
 Paperclip::Attachment.default_options[:storage] = :aliyun
-Paperclip::Attachment.default_options[:path] = 'public/system/:class/:attachment/:id_partition/:style/:filename'
 Paperclip::Attachment.default_options[:aliyun] = OSS_CONNECTION_OPTIONS
-Paperclip::Attachment.default_options[:url] = "http://#{file_host}/public/system/:class/:attachment/:id_partition/:style/:filename"
+Paperclip::Attachment.default_options[:path] = 'public/system/:class/:attachment/:id_partition/:style/:filename'
+Paperclip::Attachment.default_options[:url] = ':aliyun_path_url'
 
+# Utility methods
 def load_attachment(file_name)
-  File.open (File.expand_path "attachments/#{file_name}", File.dirname(__FILE__)), 'rb'
+  File.open(Bundler.root.join("spec/attachments/#{file_name}"), 'rb')
 end
