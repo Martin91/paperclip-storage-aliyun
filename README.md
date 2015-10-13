@@ -28,14 +28,20 @@ Paperclip::Attachment.default_options[:aliyun] = {
 Then, in the model which defines the attachment, specify your storage and other options, for example:
 ```ruby
 # [rails_root]/app/models/image.rb
-include Paperclip::Storage::Aliyun
-
 class Image < ActiveRecord::Base
   has_attached_file :attachment, {
     storage: :aliyun,
     styles: { thumbnail: "60x60#"},
     path: 'public/system/:class/:attachment/:id_partition/:style/:filename',
-    url: "http://#{oss_connection.fetch_file_host}/public/system/:class/:attachment/:id_partition/:style/:filename"
+    url: ':aliyun_upload_url'
   }
 end
 ```
+
+Similar to Paperclip::Storage::S3, there are four options for the url by now:
+- `:aliyun_upload_url` : the url based on the options you give
+- `:aliyun_internal_url` : the internal url, no matter what `options[:aliyun][:internal]` is
+- `:aliyun_external_url` : the external url, no matter what `options[:aliyun][:internal]` is
+- `:aliyun_alias_url` : the alias url based on the `host_alias` you give, typically used together with CDN
+
+Please note the values above are all strings, not symbols. You could still make your own url if only you know what you are doing.
