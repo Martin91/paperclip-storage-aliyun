@@ -1,20 +1,35 @@
 require 'aliyun/errors'
 
 module Aliyun
-	module DataCenter
-		# https://docs.aliyun.com/#/pub/oss/product-documentation/domain-region
-    AVAILABLE_CHINA_DATA_CENTERS = %w(hangzhou qingdao beijing hongkong shenzhen shanghai)
-    AVAILABLE_US_DATA_CENTERS = %w(us-west-1)
+  module DataCenter
+    # https://docs.aliyun.com/#/pub/oss/product-documentation/domain-region
+    AVAILABLE_DATA_CENTERS = %w(
+      oss-cn-hangzhou
+      oss-cn-qingdao
+      oss-cn-beijing
+      oss-cn-hongkong
+      oss-cn-shenzhen
+      oss-cn-shanghai
+      oss-us-west-1
+      oss-ap-southeast-1
+    )
 
     def get_endpoint(options)
-    	data_center = options[:data_center]
-    	if (AVAILABLE_CHINA_DATA_CENTERS + AVAILABLE_US_DATA_CENTERS).exclude?(data_center)
-    		raise InvalildDataCenter, "Unsupported Data Center #{data_center} Detected"
-    	end
+      data_center = find_center(options[:data_center])
 
-    	internal = options[:internal] ? "-internal" : ''
-    	country = AVAILABLE_CHINA_DATA_CENTERS.include?(data_center) ? 'cn' : 'us'
-    	"oss-#{country}-#{data_center}#{internal}.aliyuncs.com"
+      unless data_center && AVAILABLE_DATA_CENTERS.include?(data_center)
+        fail InvalildDataCenter, "Unsupported Data Center #{options[:data_center]} Detected"
+      end
+
+      "#{data_center}#{options[:internal] ? '-internal' : ''}.aliyuncs.com"
     end
-	end
+
+    def find_center(data_center)
+      return if /(oss|cn|us|ap|oss-cn)/.match(data_center)
+
+      AVAILABLE_DATA_CENTERS.each do |center|
+        return center if Regexp.new(data_center).match(center)
+      end
+    end
+  end
 end
