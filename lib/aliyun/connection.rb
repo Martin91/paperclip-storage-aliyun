@@ -79,13 +79,14 @@ module Aliyun
     def put(path, file, options = {})
       path = format_path(path)
       bucket_path = get_bucket_path(path)
-      content_md5 = Digest::MD5.file(file)
+      content_md5 = Digest::MD5.file(file).base64digest
       content_type = options[:content_type] || 'image/jpg'
       date = gmtdate
       url = path_to_url(path)
       auth_sign = sign('PUT', bucket_path, content_md5, content_type, date)
       headers = {
         'Authorization' => auth_sign,
+        'Content-Md5' => content_md5,
         'Content-Type' => content_type,
         'Content-Length' => file.size,
         'Date' => date,
@@ -158,10 +159,7 @@ module Aliyun
     # @param path [String] the path to retrieve the file on remote storage
     # @return [String] the new string after removing leading slashed
     def format_path(path)
-      return '' if path.blank?
-      path.gsub!(%r{^/+}, '')
-
-      path
+      path.blank? ? '' : path.gsub(%r{^/+}, '')
     end
 
     # A path consis of the bucket name and file name
@@ -190,14 +188,16 @@ module Aliyun
     # @param content_md5 [String] the md5 value for the content to be uploaded
     # @param content_type [String] the content type of the file, e.g. "application/pdf"
     # @param date [String] the GMT formatted date string
-    def sign(verb, path, content_md5 = '', content_type = '', date)
+    def sign(verb, path, content_md5, content_type, date)
       canonicalized_oss_headers = ''
       canonicalized_resource = "/#{path}"
-      string_to_sign = "#{verb}\n\n#{content_type}\n#{date}\n#{canonicalized_oss_headers}#{canonicalized_resource}"
+      string_to_sign = [
+        verb, content_md5, content_type, date,
+        canonicalized_oss_headers + canonicalized_resource
+      ].join("\n")
       digest = OpenSSL::Digest.new('sha1')
       h = OpenSSL::HMAC.digest(digest, @aliyun_access_key, string_to_sign)
-      h = Base64.encode64(h)
-      "OSS #{@aliyun_access_id}:#{h}"
+      "OSS #{@aliyun_access_id}:#{Base64.encode64(h)}"
     end
   end
 end

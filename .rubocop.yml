@@ -1,28 +1,11 @@
 Style/Documentation:
   Enabled: false
 
+Metrics/AbcSize:
+  Max: 18
+
 Metrics/LineLength:
   Max: 120
 
-# Offense count: 1
-# Cop supports --auto-correct.
-Lint/UnusedMethodArgument:
-  Exclude:
-    - 'lib/aliyun/connection.rb'
-
-# Offense count: 4
-# Configuration parameters: CountComments.
 Metrics/MethodLength:
-  Max: 17
-
-# Offense count: 1
-# Configuration parameters: Exclude.
-Style/FileName:
-  Exclude:
-    - 'lib/paperclip-storage-aliyun.rb'
-
-# Offense count: 3
-Style/OptionalArguments:
-  Exclude:
-    - 'lib/aliyun/connection.rb'
-    - 'lib/paperclip/storage/aliyun.rb'
+  Enabled: false

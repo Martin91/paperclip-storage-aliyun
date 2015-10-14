@@ -54,7 +54,7 @@ module Paperclip
         @queued_for_delete = []
       end
 
-      def copy_to_local_file(style = default_style, local_dest_path)
+      def copy_to_local_file(style, local_dest_path)
         log("copying #{path(style)} to local file #{local_dest_path}")
         local_file = ::File.open(local_dest_path, 'wb')
         remote_file_str = oss_connection.get path(style)
