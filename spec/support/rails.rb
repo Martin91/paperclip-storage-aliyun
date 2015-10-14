@@ -1,4 +1,4 @@
-require "paperclip"
+require 'paperclip'
 
 module Paperclip
   module Interpolations

@@ -78,21 +78,21 @@ module Aliyun
     #
     # @return [String] The downloadable url of the uploaded file
     # @return [nil] if the uploading failed
-    def put(path, file, options={})
+    def put(path, file, options = {})
       path = format_path(path)
       bucket_path = get_bucket_path(path)
       content_md5 = Digest::MD5.file(file)
-      content_type = options[:content_type] || "image/jpg"
+      content_type = options[:content_type] || 'image/jpg'
       date = gmtdate
       url = path_to_url(path)
-      auth_sign = sign("PUT", bucket_path, content_md5, content_type, date)
+      auth_sign = sign('PUT', bucket_path, content_md5, content_type, date)
       headers = {
-        "Authorization" => auth_sign,
-        "Content-Type" => content_type,
-        "Content-Length" => file.size,
-        "Date" => date,
-        "Host" => @aliyun_upload_host,
-        "Expect" => "100-Continue"
+        'Authorization' => auth_sign,
+        'Content-Type' => content_type,
+        'Content-Length' => file.size,
+        'Date' => date,
+        'Host' => @aliyun_upload_host,
+        'Expect' => '100-Continue'
       }
       response = RestClient.put(URI.encode(url), file, headers)
       response.code == 200 ? path_to_url(path) : nil
@@ -109,9 +109,9 @@ module Aliyun
       bucket_path = get_bucket_path(path)
       date = gmtdate
       headers = {
-        "Host" => @aliyun_upload_host,
-        "Date" => date,
-        "Authorization" => sign("DELETE", bucket_path, "", "" ,date)
+        'Host' => @aliyun_upload_host,
+        'Date' => date,
+        'Authorization' => sign('DELETE', bucket_path, '', '', date)
       }
       url = path_to_url(path)
       response = RestClient.delete(URI.encode(url), headers)
@@ -128,9 +128,9 @@ module Aliyun
       bucket_path = get_bucket_path(path)
       date = gmtdate
       headers = {
-        "Host" => @aliyun_upload_host,
-        "Date" => date,
-        "Authorization" => sign("GET", bucket_path, "", "" ,date)
+        'Host' => @aliyun_upload_host,
+        'Date' => date,
+        'Authorization' => sign('GET', bucket_path, '', '', date)
       }
       url = path_to_url(path)
       response = RestClient.get(URI.encode(url), headers)
@@ -152,7 +152,7 @@ module Aliyun
     #
     # @return [String] a string represents the formated time, e.g. "Wed, 05 Sep. 2012 23:00:00 GMT"
     def gmtdate
-      Time.now.gmtime.strftime("%a, %d %b %Y %H:%M:%S GMT")
+      Time.now.gmtime.strftime('%a, %d %b %Y %H:%M:%S GMT')
     end
 
     # remove leading slashes in the path
@@ -160,8 +160,8 @@ module Aliyun
     # @param path [String] the path to retrieve the file on remote storage
     # @return [String] the new string after removing leading slashed
     def format_path(path)
-      return "" if path.blank?
-      path.gsub!(/^\/+/,"")
+      return '' if path.blank?
+      path.gsub!(%r{^/+}, '')
 
       path
     end
@@ -172,7 +172,7 @@ module Aliyun
     # @param path [String] the path to retrieve the file on remote storage
     # @return [String] the expected bucket path, e.g. "test-bucket/oss-api.pdf"
     def get_bucket_path(path)
-      [@aliyun_bucket,path].join("/")
+      [@aliyun_bucket, path].join('/')
     end
 
     # The full path contains host name to the file
