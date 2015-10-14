@@ -2,14 +2,24 @@
 
 require 'openssl'
 require 'digest/md5'
-require "rest-client"
-require "base64"
+require 'rest-client'
+require 'base64'
 require 'uri'
 require 'aliyun/data_center'
 
 module Aliyun
   class Connection
     include DataCenter
+
+    # The upload host according to the connection configurations
+    attr_reader :aliyun_upload_host
+    # The internal host
+    attr_reader :aliyun_internal_host
+    # The external host
+    attr_reader :aliyun_external_host
+    # The alias host
+    attr_reader :aliyun_alias_host
+
     # Initialize the OSS connection
     #
     # @param [Hash] An options to specify connection details
@@ -18,7 +28,7 @@ module Aliyun
     # @option bucket [String] bucket used to access
     # @option data_center [String] available data center name, e.g. 'hangzhou'
     # @option internal [true, false] if the service should be accessed through internal network
-    # @option host [String] force the host to a given value, only use it when this gem can not work expectly
+    # @option host_alias [String] the alias of the host, such as the CDN domain name
     # @note both access_id and acces_key are related to authorization algorithm:
     #   https://docs.aliyun.com/#/pub/oss/api-reference/access-control&signature-header
     def initialize(options = {})
@@ -26,18 +36,10 @@ module Aliyun
       @aliyun_access_key = options[:access_key]
       @aliyun_bucket = options[:bucket]
 
-      @endpoint = get_endpoint(options)
-
-      @aliyun_upload_host = "#{@aliyun_bucket}.#{@endpoint}"
-
-      @aliyun_host = options[:host] || @aliyun_upload_host
-    end
-
-    # the file host according to the connection configurations
-    #
-    # @return [String] the host value 
-    def fetch_file_host
-      @aliyun_host
+      @aliyun_upload_host = "#{@aliyun_bucket}.#{get_endpoint(options)}"
+      @aliyun_internal_host = "#{@aliyun_bucket}.#{get_endpoint(options.merge(internal: true))}"
+      @aliyun_external_host = "#{@aliyun_bucket}.#{get_endpoint(options.merge(internal: false))}"
+      @aliyun_alias_host = options[:host_alias] || @aliyun_upload_host
     end
 
     # Return the meta informations for the a file specified by the path
@@ -68,12 +70,12 @@ module Aliyun
 
     # Upload File to Aliyun OSS
     # https://docs.aliyun.com/#/pub/oss/api-reference/object&PutObject
-    # 
+    #
     # @param path [String] the target storing path on the oss
     # @param file [File] an instance of File represents a file to be uploaded
     # @param options [Hash]
     #   - content_type - MimeType value for the file, default is "image/jpg"
-    # 
+    #
     # @return [String] The downloadable url of the uploaded file
     # @return [nil] if the uploading failed
     def put(path, file, options={})
@@ -178,11 +180,11 @@ module Aliyun
     # @param path [String] the path to retrieve the file on remote storage
     # @return [String] the expected full path, e.g. "http://martin-test.oss-cn-hangzhou.aliyuncs.com/oss-api.pdf"
     def path_to_url(path)
-      return path if path =~ /^https?:\/{2}/  # 已经是全路径
-      "http://#{fetch_file_host}/#{path}"
+      path =~ %r{^https?:\/{2}} ? path : "http://#{aliyun_upload_host}/#{path}"
     end
 
     private
+
     # The signature algorithm
     # https://docs.aliyun.com/#/pub/oss/api-reference/access-control&signature-header
     #

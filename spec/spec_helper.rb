@@ -12,14 +12,14 @@ OSS_CONNECTION_OPTIONS = {
   bucket: 'martin-test',
   data_center: 'hangzhou',
   internal: false
-  # host: nil
+  # host_alias: nil
 }
 
 # Paperclip defaults
 Paperclip::Attachment.default_options[:storage] = :aliyun
 Paperclip::Attachment.default_options[:aliyun] = OSS_CONNECTION_OPTIONS
 Paperclip::Attachment.default_options[:path] = 'public/system/:class/:attachment/:id_partition/:style/:filename'
-Paperclip::Attachment.default_options[:url] = ':aliyun_path_url'
+Paperclip::Attachment.default_options[:url] = ':aliyun_upload_url'
 
 # Utility methods
 def load_attachment(file_name)
