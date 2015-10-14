@@ -1,4 +1,4 @@
 module Aliyun
-	class InvalildDataCenter < StandardError
-	end
+  class InvalildDataCenter < StandardError
+  end
 end

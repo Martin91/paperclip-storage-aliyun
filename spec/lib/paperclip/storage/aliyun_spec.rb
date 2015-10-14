@@ -59,7 +59,7 @@ describe Paperclip::Storage::Aliyun do
       destination = File.join(Bundler.root, "tmp/photo.jpg")
       @post.attachment.copy_to_local_file(:original, destination)
       expect(File.exists?(destination)).to be_truthy
-      
+
       File.delete destination
     end
   end

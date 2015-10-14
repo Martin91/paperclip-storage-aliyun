@@ -8,7 +8,7 @@ gem "activerecord-nulldb-adapter"
 gemspec
 
 group :test do
-	gem 'activerecord', '~> 4.0.0'
+  gem 'activerecord', '~> 4.0.0'
   gem 'rspec', '~> 3.3.0'
   gem 'pry'
   gem 'pry-nav'
