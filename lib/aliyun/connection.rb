@@ -1,5 +1,3 @@
-# encoding: utf-8
-
 require 'openssl'
 require 'digest/md5'
 require 'rest-client'
@@ -180,7 +178,7 @@ module Aliyun
     # @param path [String] the path to retrieve the file on remote storage
     # @return [String] the expected full path, e.g. "http://martin-test.oss-cn-hangzhou.aliyuncs.com/oss-api.pdf"
     def path_to_url(path)
-      path =~ %r{^https?:\/{2}} ? path : "http://#{aliyun_upload_host}/#{path}"
+      path =~ %r{^https?://} ? path : "http://#{aliyun_upload_host}/#{path}"
     end
 
     private

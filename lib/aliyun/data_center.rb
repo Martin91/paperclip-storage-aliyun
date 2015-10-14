@@ -27,9 +27,8 @@ module Aliyun
     def find_center(data_center)
       return if /(oss|cn|us|ap|oss-cn)/.match(data_center)
 
-      AVAILABLE_DATA_CENTERS.each do |center|
-        return center if Regexp.new(data_center).match(center)
-      end
+      regexp = Regexp.new(data_center)
+      AVAILABLE_DATA_CENTERS.find { |center| regexp.match(center) }
     end
   end
 end
