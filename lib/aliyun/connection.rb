@@ -93,7 +93,7 @@ module Aliyun
         'Host' => @aliyun_upload_host,
         'Expect' => '100-Continue'
       }
-      response = RestClient.put(URI.encode(url), file, headers)
+      response = RestClient.put(url, file, headers)
       response.code == 200 ? path_to_url(path) : nil
     end
 
@@ -113,7 +113,7 @@ module Aliyun
         'Authorization' => sign('DELETE', bucket_path, '', '', date)
       }
       url = path_to_url(path)
-      response = RestClient.delete(URI.encode(url), headers)
+      response = RestClient.delete(url, headers)
       response.code == 204 ? url : nil
     end
 
@@ -132,7 +132,7 @@ module Aliyun
         'Authorization' => sign('GET', bucket_path, '', '', date)
       }
       url = path_to_url(path)
-      response = RestClient.get(URI.encode(url), headers)
+      response = RestClient.get(url, headers)
       response.body
     end
 
@@ -176,7 +176,7 @@ module Aliyun
     # @param path [String] the path to retrieve the file on remote storage
     # @return [String] the expected full path, e.g. "http://martin-test.oss-cn-hangzhou.aliyuncs.com/oss-api.pdf"
     def path_to_url(path)
-      path =~ %r{^https?://} ? path : "http://#{aliyun_upload_host}/#{path}"
+      path =~ %r{^https?://} ? path : URI.encode("http://#{aliyun_upload_host}/#{path}")
     end
 
     private
