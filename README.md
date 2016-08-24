@@ -45,3 +45,19 @@ Similar to Paperclip::Storage::S3, there are four options for the url by now:
 - `:aliyun_alias_url` : the alias url based on the `host_alias` you give, typically used together with CDN
 
 Please note the values above are all strings, not symbols. You could still make your own url if only you know what you are doing.
+
+#### Test
+1. Update connection settings in `spec/spec_helper.rb`:
+
+  ```ruby
+  # Aliyun defaults
+  OSS_CONNECTION_OPTIONS = {
+    access_id: 'your_access_key_id',
+    access_key: 'your_access_key_secret',
+    bucket: 'your_bucket',
+    data_center: 'your_data_center',
+    internal: false
+  }
+  ```
+
+2. Run `bundle exec rspec spec`.
