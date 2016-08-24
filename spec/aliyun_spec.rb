@@ -40,6 +40,16 @@ describe Aliyun::Connection do
       response_code = Net::HTTP.get_response(URI.parse(url)).code
       expect(response_code).to eq('404')
     end
+
+    describe "delete attachment with Chinese name" do
+      it "delete the attachment" do
+        path = "a/美女.jpg"
+        @connection.put path, load_attachment('美女.jpg')
+        url = @connection.delete path
+        response_code = Net::HTTP.get_response(URI.parse(url)).code
+        expect(response_code).to eq('404')
+      end
+    end
   end
 
   describe '#exists?' do
