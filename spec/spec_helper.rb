@@ -7,8 +7,8 @@ Dir[Bundler.root.join('spec/support/**/*.rb')].each(&method(:require))
 
 # Aliyun defaults
 OSS_CONNECTION_OPTIONS = {
-  access_id: '3VL9XMho8iCuslj8',
-  access_key: 'VAUI2q7Tc6yTf1jr3kBsEUzZ84gEa2',
+  access_id: '4adTRa4dWto3vxiq',
+  access_key: 'hzEWBDWlt3N0SPPj6EfYAr4ISdaizW',
   bucket: 'martin-test',
   data_center: 'hangzhou',
   internal: false

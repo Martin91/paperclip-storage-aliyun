@@ -69,5 +69,19 @@ describe Paperclip::Storage::Aliyun do
       response_code = Net::HTTP.get_response(URI.parse(attachment_url)).code
       expect(response_code).to eq('404')
     end
+
+    context "work with path include Chinese characters" do
+      before do
+        @file_with_chinese_char_name = load_attachment("美女.jpg")
+        @post_with_chinese_char_name_file = Post.create attachment: @file_with_chinese_char_name
+      end
+
+      it "deletes the attachment from Aliyun" do
+        attachment_url = @post_with_chinese_char_name_file.attachment.url
+        @post_with_chinese_char_name_file.destroy
+        response_code = Net::HTTP.get_response(URI.parse(attachment_url)).code
+        expect(response_code).to eq('404')
+      end
+    end
   end
 end
