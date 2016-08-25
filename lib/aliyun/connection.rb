@@ -176,7 +176,7 @@ module Aliyun
     # @param path [String] the path to retrieve the file on remote storage
     # @return [String] the expected full path, e.g. "http://martin-test.oss-cn-hangzhou.aliyuncs.com/oss-api.pdf"
     def path_to_url(path)
-      path =~ %r{^https?://} ? path : URI.encode("http://#{aliyun_upload_host}/#{path}")
+      URI.encode(path =~ %r{^https?://} ? path : "http://#{aliyun_upload_host}/#{path}")
     end
 
     private

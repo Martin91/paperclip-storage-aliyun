@@ -70,6 +70,8 @@ describe Aliyun::Connection do
 
     it "also return true for existed file with path include chinese characters" do
       expect(@connection.exists?(@path_include_chinese)).to be_truthy
+      url = "http://#{@connection.aliyun_upload_host}/#{@path_include_chinese}"
+      expect(@connection.exists?(url)).to be_truthy
     end
   end
 end
