@@ -22,7 +22,8 @@ Paperclip::Attachment.default_options[:aliyun] = {
   access_key: 'VAUI2q7Tc6yTh1jr3kBsEUzZ84gEa2',
   bucket: 'xx-test',
   data_center: 'hangzhou',
-  internal: false
+  internal: false,
+  protocol: 'https'
 }
 ```
 Then, in the model which defines the attachment, specify your storage and other options, for example:
@@ -56,7 +57,8 @@ Please note the values above are all strings, not symbols. You could still make 
     access_key: 'your_access_key_secret',
     bucket: 'your_bucket',
     data_center: 'your_data_center',
-    internal: false
+    internal: false,
+    protocol: 'https'
   }
   ```
 
