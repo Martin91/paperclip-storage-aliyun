@@ -21,7 +21,7 @@ Paperclip::Attachment.default_options[:aliyun] = {
   access_id: '3VL9XMho8iCushj8',
   access_key: 'VAUI2q7Tc6yTh1jr3kBsEUzZ84gEa2',
   bucket: 'xx-test',
-  data_center: 'hangzhou',
+  data_center: 'cn-hangzhou',
   internal: false,
   protocol: 'https'
 }
@@ -46,6 +46,10 @@ Similar to Paperclip::Storage::S3, there are four options for the url by now:
 - `:aliyun_alias_url` : the alias url based on the `host_alias` you give, typically used together with CDN
 
 Please note the values above are all strings, not symbols. You could still make your own url if only you know what you are doing.
+
+#### Data Centers
+A list of available regions can be found at [https://intl.aliyun.com/help/doc-detail/31837.htm](https://intl.aliyun.com/help/doc-detail/31837.htm).
+You can use the "Region Expression" column value as it is for the data center, or you can remove the "oss-" prefix. For example: `oss-cn-hangzhou` and `cn-hangzhou` are both valid options.
 
 #### Test
 1. Update connection settings in `spec/spec_helper.rb`:

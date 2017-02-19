@@ -26,7 +26,7 @@ module Aliyun
     # @option access_id [String] used to set "Authorization" request header
     # @option access_key [String] the access key
     # @option bucket [String] bucket used to access
-    # @option data_center [String] available data center name, e.g. 'hangzhou'
+    # @option data_center [String] available data center name, e.g. 'cn-hangzhou'
     # @option internal [true, false] if the service should be accessed through internal network
     # @option host_alias [String] the alias of the host, such as the CDN domain name
     # @note both access_id and acces_key are related to authorization algorithm:

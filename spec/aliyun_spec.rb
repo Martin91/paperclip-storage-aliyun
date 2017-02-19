@@ -14,6 +14,12 @@ describe Aliyun::Connection do
         ::Aliyun::Connection.new data_center: 'guangzhou'
       end.to raise_error(Aliyun::InvalildDataCenter)
     end
+
+    it 'raises an error when using ambiguous data center' do
+      expect do
+        ::Aliyun::Connection.new data_center: 'hangzhou'
+      end.to raise_error(Aliyun::InvalildDataCenter)
+    end
   end
 
   describe '#put' do
