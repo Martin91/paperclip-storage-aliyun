@@ -64,8 +64,16 @@ module Aliyun
     #    :x_oss_request_id=>"55BD83A5D4C05BDFF4A329E0"}}
     #
     def head(path)
+      path = format_path(path)
+      bucket_path = get_bucket_path(path)
+      date = gmtdate
+      headers = {
+        'Host' => @aliyun_upload_host,
+        'Date' => date,
+        'Authorization' => sign('HEAD', bucket_path, '', '', date)
+      }
       url = path_to_url(path)
-      RestClient.head(url).headers
+      RestClient.head(url, headers).headers
     rescue RestClient::ResourceNotFound
       {}
     end
