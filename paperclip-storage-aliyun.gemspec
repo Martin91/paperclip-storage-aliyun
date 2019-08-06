@@ -5,7 +5,7 @@ Gem::Specification.new do |s|
   s.summary      = 'Extend a Aliyun OSS storage for paperclip'
   s.description  = 'Extend a Aliyun OSS storage for paperclip'
   s.version      = '0.1.4'
-  s.files        = `git ls-files`.split("\n")
+  s.files        = Dir['lib/**/*.rb']
   s.authors      = ['Martin Hong', 'Aidi Stan']
   s.email        = 'hongzeqin@gmail.com'
   s.homepage     = 'https://github.com/Martin91/paperclip-storage-aliyun'
