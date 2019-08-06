@@ -44,7 +44,7 @@ module Aliyun
       @aliyun_alias_host = options[:host_alias] || @aliyun_upload_host
     end
 
-    # Return the meta informations for the a file specified by the path
+    # Return the meta informations for a file specified by the path
     # https://docs.aliyun.com/#/pub/oss/api-reference/object&HeadObject
     #
     # @param path [String] the path of file storaged in Aliyun OSS
