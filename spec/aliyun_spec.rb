@@ -58,6 +58,13 @@ describe Aliyun::Connection do
     end
   end
 
+  describe '#head' do
+    it 'return headers for uploaded file' do
+      @connection.put @path, load_attachment('girl.jpg')
+      expect(@connection.head(@path)).not_to be_empty
+    end
+  end
+
   describe '#exists?' do
     before :all do
       @connection.put @path, load_attachment('girl.jpg')
