@@ -2,7 +2,7 @@ require 'aliyun/errors'
 
 module Aliyun
   module DataCenter
-    # https://docs.aliyun.com/#/pub/oss/product-documentation/domain-region
+    # https://help.aliyun.com/document_detail/31837.html
     AVAILABLE_DATA_CENTERS = %w(
       oss-cn-hangzhou
       oss-cn-shanghai
@@ -11,6 +11,8 @@ module Aliyun
       oss-cn-zhangjiakou
       oss-cn-huhehaote
       oss-cn-shenzhen
+      oss-cn-heyuan
+      oss-cn-chengdu
       oss-cn-hongkong
       oss-us-west-1
       oss-us-east-1
