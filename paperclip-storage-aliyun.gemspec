@@ -4,7 +4,7 @@ Gem::Specification.new do |s|
   s.require_path = 'lib'
   s.summary      = 'Extend a Aliyun OSS storage for paperclip'
   s.description  = 'Extend a Aliyun OSS storage for paperclip'
-  s.version      = '0.1.4'
+  s.version      = '0.1.5'
   s.files        = Dir['lib/**/*.rb']
   s.authors      = ['Martin Hong', 'Aidi Stan']
   s.email        = 'hongzeqin@gmail.com'
