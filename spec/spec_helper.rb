@@ -11,8 +11,8 @@ OSS_CONNECTION_OPTIONS = {
   access_key: ENV['OSS_ACCESS_KEY'],
   bucket: 'martin-test',
   data_center: 'cn-hangzhou',
-  internal: false
-  # host_alias: nil
+  internal: false,
+  host_alias: 'hackerpie.com'
 }
 
 # Paperclip defaults

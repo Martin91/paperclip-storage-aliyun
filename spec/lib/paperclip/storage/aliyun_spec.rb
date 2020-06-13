@@ -14,6 +14,14 @@ describe Paperclip::Storage::Aliyun do
     @file.close
   end
 
+  describe 'style urls' do
+    url = 'http://martin-test.oss-cn-hangzhou.aliyuncs.com/public/system/posts/attachments/000/000/001/original/girl.jpg'
+    it { expect(@post.attachment.aliyun_upload_url).to eq(url) }
+    it { expect(@post.attachment.aliyun_external_url).to eq(url) }
+    it { expect(@post.attachment.aliyun_internal_url).to eq(url.sub('oss-cn-hangzhou', 'oss-cn-hangzhou-internal')) }
+    it { expect(@post.attachment.aliyun_alias_url).to eq(url.sub('martin-test.oss-cn-hangzhou.aliyuncs.com', 'hackerpie.com')) }
+  end
+
   describe '#flush_writes' do
     it 'uploads the attachment to Aliyun' do
       response = open(@post.attachment.url)
