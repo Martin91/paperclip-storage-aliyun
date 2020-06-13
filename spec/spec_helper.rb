@@ -1,3 +1,6 @@
+require 'coveralls'
+Coveralls.wear!
+
 require 'pry'
 require 'pry-nav'
 require 'paperclip-storage-aliyun'

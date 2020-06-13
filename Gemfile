@@ -13,4 +13,5 @@ group :test do
   gem 'rubocop', '~> 0.34.2'
   gem 'pry'
   gem 'pry-nav'
+  gem 'coveralls', require: false
 end
