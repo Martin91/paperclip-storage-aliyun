@@ -23,9 +23,11 @@ Paperclip::Attachment.default_options[:aliyun] = {
   bucket: 'xx-test',
   data_center: 'cn-hangzhou',
   internal: false,
-  protocol: 'https'
+  protocol: 'https',
+  protocol_relative_url: false
 }
 ```
+
 Then, in the model which defines the attachment, specify your storage and other options, for example:
 ```ruby
 # [rails_root]/app/models/image.rb

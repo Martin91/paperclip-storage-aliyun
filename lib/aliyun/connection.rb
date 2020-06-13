@@ -31,6 +31,8 @@ module Aliyun
     # @option data_center [String] available data center name, e.g. 'cn-hangzhou'
     # @option internal [true, false] if the service should be accessed through internal network
     # @option host_alias [String] the alias of the host, such as the CDN domain name
+    # @option protocol [String] 'http' or 'https', default to 'http'
+    # @option protocol_relative_url [true, false] if to use protocol relative url, https://en.wikipedia.org/wiki/Wikipedia:Protocol-relative_URL
     # @note both access_id and acces_key are related to authorization algorithm:
     #   https://docs.aliyun.com/#/pub/oss/api-reference/access-control&signature-header
     def initialize(options = {})
