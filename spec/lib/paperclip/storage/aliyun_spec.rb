@@ -15,11 +15,29 @@ describe Paperclip::Storage::Aliyun do
   end
 
   describe 'style urls' do
-    url = 'http://martin-test.oss-cn-hangzhou.aliyuncs.com/public/system/posts/attachments/000/000/001/original/girl.jpg'
-    it { expect(@post.attachment.aliyun_upload_url).to eq(url) }
-    it { expect(@post.attachment.aliyun_external_url).to eq(url) }
-    it { expect(@post.attachment.aliyun_internal_url).to eq(url.sub('oss-cn-hangzhou', 'oss-cn-hangzhou-internal')) }
-    it { expect(@post.attachment.aliyun_alias_url).to eq(url.sub('martin-test.oss-cn-hangzhou.aliyuncs.com', 'hackerpie.com')) }
+    before { @url = 'http://martin-test.oss-cn-hangzhou.aliyuncs.com/public/system/posts/attachments/000/000/001/original/girl.jpg' }
+    it { expect(@post.attachment.aliyun_upload_url).to eq(@url) }
+    it { expect(@post.attachment.aliyun_external_url).to eq(@url) }
+    it { expect(@post.attachment.aliyun_internal_url).to eq(@url.sub('oss-cn-hangzhou', 'oss-cn-hangzhou-internal')) }
+    it { expect(@post.attachment.aliyun_alias_url).to eq(@url.sub('martin-test.oss-cn-hangzhou.aliyuncs.com', 'hackerpie.com')) }
+
+    context 'use protocol relative url' do
+      before(:all) {
+        Paperclip::Attachment.default_options[:aliyun][:protocol_relative_url] = true
+        @post.attachment.remove_instance_variable(:@oss_connection)
+      }
+      after(:all) {
+        Paperclip::Attachment.default_options[:aliyun].delete :protocol_relative_url
+        @post.attachment.remove_instance_variable(:@oss_connection)
+      }
+      before { @url = '//martin-test.oss-cn-hangzhou.aliyuncs.com/public/system/posts/attachments/000/000/001/original/girl.jpg' }
+
+      protocol_relative_url = '//martin-test.oss-cn-hangzhou.aliyuncs.com/public/system/posts/attachments/000/000/001/original/girl.jpg'
+      it { expect(@post.attachment.aliyun_upload_url).to eq(@url) }
+      it { expect(@post.attachment.aliyun_external_url).to eq(@url) }
+      it { expect(@post.attachment.aliyun_internal_url).to eq(@url.sub('oss-cn-hangzhou', 'oss-cn-hangzhou-internal')) }
+      it { expect(@post.attachment.aliyun_alias_url).to eq(@url.sub('martin-test.oss-cn-hangzhou.aliyuncs.com', 'hackerpie.com')) }
+    end
   end
 
   describe '#flush_writes' do

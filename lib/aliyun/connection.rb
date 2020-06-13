@@ -20,6 +20,8 @@ module Aliyun
 
     attr_reader :aliyun_protocol
 
+    attr_reader :aliyun_protocol_relative_url
+
     # Initialize the OSS connection
     #
     # @param [Hash] An options to specify connection details
@@ -35,8 +37,8 @@ module Aliyun
       @aliyun_access_id = options[:access_id]
       @aliyun_access_key = options[:access_key]
       @aliyun_bucket = options[:bucket]
+      @aliyun_protocol_relative_url = !!options[:protocol_relative_url]
       @aliyun_protocol = options[:protocol] || 'http'
-
 
       @aliyun_upload_host = "#{@aliyun_bucket}.#{get_endpoint(options)}"
       @aliyun_internal_host = "#{@aliyun_bucket}.#{get_endpoint(options.merge(internal: true))}"

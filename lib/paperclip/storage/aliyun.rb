@@ -17,7 +17,11 @@ module Paperclip
       end
 
       def build_aliyun_object_url(host, style)
-        "#{oss_connection.aliyun_protocol}://#{host}/#{path(style).sub(%r{\A/}, '')}"
+        if oss_connection.aliyun_protocol_relative_url
+          "//#{host}/#{path(style).sub(%r{\A/}, '')}"
+        else
+          "#{oss_connection.aliyun_protocol}://#{host}/#{path(style).sub(%r{\A/}, '')}"
+        end
       end
 
       def aliyun_upload_url(style = default_style)
