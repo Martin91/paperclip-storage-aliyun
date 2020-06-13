@@ -16,20 +16,24 @@ module Paperclip
         end
       end
 
+      def build_aliyun_object_url(host, style)
+        "#{oss_connection.aliyun_protocol}://#{host}/#{path(style).sub(%r{\A/}, '')}"
+      end
+
       def aliyun_upload_url(style = default_style)
-        "#{oss_connection.aliyun_protocol}://#{oss_connection.aliyun_upload_host}/#{path(style).sub(%r{\A/}, '')}"
+        build_aliyun_object_url(oss_connection.aliyun_upload_host, style)
       end
 
       def aliyun_internal_url(style = default_style)
-        "#{oss_connection.aliyun_protocol}://#{oss_connection.aliyun_internal_host}/#{path(style).sub(%r{\A/}, '')}"
+        build_aliyun_object_url(oss_connection.aliyun_internal_host, style)
       end
 
       def aliyun_external_url(style = default_style)
-        "#{oss_connection.aliyun_protocol}://#{oss_connection.aliyun_external_host}/#{path(style).sub(%r{\A/}, '')}"
+        build_aliyun_object_url(oss_connection.aliyun_external_host, style)
       end
 
       def aliyun_alias_url(style = default_style)
-        "#{oss_connection.aliyun_protocol}://#{oss_connection.aliyun_alias_host}/#{path(style).sub(%r{\A/}, '')}"
+        build_aliyun_object_url(oss_connection.aliyun_alias_host, style)
       end
 
       def exists?(style = default_style)
