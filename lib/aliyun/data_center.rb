@@ -30,7 +30,7 @@ module Aliyun
     def get_endpoint(options)
       data_center = options[:data_center]
 
-      data_center.prepend('oss-') unless data_center.match(/^oss/)
+      data_center = 'oss-' + data_center unless data_center.match(/^oss/)
 
       unless AVAILABLE_DATA_CENTERS.include?(data_center)
         fail InvalildDataCenter, "Unsupported Data Center #{options[:data_center]} Detected"
